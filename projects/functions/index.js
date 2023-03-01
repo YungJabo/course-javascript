@@ -15,7 +15,6 @@
 function returnFirstArgument(a) {
   return a;
 }
-console.log(returnFirstArgument(10))
 
 /*
  Задание 2:
@@ -31,7 +30,9 @@ console.log(returnFirstArgument(10))
  Пример:
    sumWithDefaults(10) вернет 110
  */
-function sumWithDefaults() {}
+function sumWithDefaults(a, b = 100) {
+  return a + b;
+}
 
 /*
  Задание 3:
@@ -41,7 +42,10 @@ function sumWithDefaults() {}
  Пример:
    returnFnResult(() => 'привет') вернет 'привет'
  */
-function returnFnResult() {}
+
+function returnFnResult(F) {
+  return F();
+}
 
 /*
  Задание 4:
@@ -56,7 +60,12 @@ function returnFnResult() {}
    console.log(f()); // выведет 12
    console.log(f()); // выведет 13
  */
-function returnCounter() {}
+function returnCounter(a = 0) {
+  return function F() {
+    a = a + 1;
+    return a;
+  };
+}
 
 /*
  Задание 5 *:
@@ -67,7 +76,9 @@ function returnCounter() {}
  Пример:
    returnArgumentsArray(1, 2, 3) вернет [1, 2, 3]
  */
-function returnArgumentsArray() {}
+function returnArgumentsArray(...numbers) {
+  return numbers;
+}
 
 export {
   returnFirstArgument,
