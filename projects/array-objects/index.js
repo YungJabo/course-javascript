@@ -47,12 +47,8 @@
    */
   function reduce(array, fn,initial=array[0]) {
     var prev = initial;
-    if(initial != array[0]){
-      var i = 0;
-    }
-    else{
-      var i = 1;
-    }
+    var i;
+    initial === array[0] ? i = 1 : i = 0;
     for (i; i < array.length; i++) {
       var elem = array[i];
       prev = fn(prev, elem, i, array);
