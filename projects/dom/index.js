@@ -1,6 +1,5 @@
 /* ДЗ 4 - работа с DOM */
 
-import { node } from 'webpack';
 
 /*
  Задание 1:
@@ -129,7 +128,6 @@ function deleteTextNodes(where) {
 function collectDOMStat(root) {
   function recurs(root) {
     for (var child of root.childNodes) {
-      console.log(child.classList);
       if (child.nodeType == 3) {
         texts += 1;
       }
@@ -141,7 +139,6 @@ function collectDOMStat(root) {
       }
       if (child.nodeType == 1) {
         for (let clas of child.classList) {
-          console.log(clas);
           if (classes.hasOwnProperty(clas)) {
             classes[clas] += 1;
           }
