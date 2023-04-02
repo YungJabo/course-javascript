@@ -1,4 +1,6 @@
 import model from './model.js';
+import pages from './pages.js';
+import profilePage from './profilePage.js';
 
 export default {
   async getNextPhoto() {
@@ -11,6 +13,8 @@ export default {
     const headerPhotoComp = document.querySelector('.component-header-photo');
     const headerNameComp = document.querySelector('.component-header-name');
     const footerPhoto = document.querySelector('.component-footer-photo');
+
+    this.friend = friend;
 
     headerPhotoComp.style.backgroundImage = `url('${friend.photo_50}')`;
     headerNameComp.innerText = `${friend.first_name ?? ''} ${friend.last_name ?? ''}`;
@@ -25,6 +29,7 @@ export default {
     document.querySelector('.component-photo').addEventListener('touchstart', (e)=>{
       e.preventDefault();
       start = e.changedTouches[0].pageY;
+
     });
 
     document.querySelector('.component-photo').addEventListener('touchend', async (e)=>{
@@ -33,6 +38,16 @@ export default {
       if(raz<0){
         await this.getNextPhoto();
       }
+    });
+    
+    document.querySelector('.component-header-profile-link').addEventListener('click', async() =>{
+      await profilePage.setUser(this.friend);
+      pages.openPage('profile');
+    });
+
+    document.querySelector('.component-footer-container-profile-link').addEventListener('click', async() =>{
+      await profilePage.setUser(model.me);
+      pages.openPage('profile');
     });
   },
 };
