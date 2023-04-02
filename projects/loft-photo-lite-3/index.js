@@ -4,6 +4,5 @@ import loginPage from './loginPage.js';
 import './styles.css';
 
 pages.openPage('login');
-console.log('ok');
 loginPage.handleEvents();
 mainPage.handleEvents();

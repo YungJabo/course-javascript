@@ -10,13 +10,30 @@ export default {
     const photoComp = document.querySelector('.component-photo');
     const headerPhotoComp = document.querySelector('.component-header-photo');
     const headerNameComp = document.querySelector('.component-header-name');
+    
 
-
-    headerPhotoComp.style.backgroundImage = `url('${friend_photo_50}')`;
+    headerPhotoComp.style.backgroundImage = `url('${friend.photo_50}')`;
     headerNameComp.innerText = `${friend.first_name ?? ''} ${friend.last_name ?? ''}`;
     photoComp.style.backgroundImage = `url(${url})`;
     
   },
 
-  handleEvents() {},
+  handleEvents() {
+    let start;
+
+    document.querySelector('.component-photo').addEventListener('touchstart', (e)=>{
+      e.preventDefault();
+      console.log(e);
+      start = e.changedTouches[0].pageY;
+      console.log(start);
+    });
+
+    document.querySelector('.component-photo').addEventListener('touchend', async (e)=>{
+      const raz = e.changedTouches[0].pageY - start;
+
+      if(raz<0){
+        await this.getNextPhoto();
+      }
+    });
+  },
 };

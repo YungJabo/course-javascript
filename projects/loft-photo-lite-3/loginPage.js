@@ -9,7 +9,7 @@ export default {
       await model.init();
 
       pages.openPage('main');
-      await mainPage.getNextPhoto();
+      mainPage.getNextPhoto();
     });
   },
 };

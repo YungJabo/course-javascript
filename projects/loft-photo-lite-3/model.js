@@ -1,9 +1,10 @@
-const APP_ID = 51594010;
+
+let APP_ID = 51599141;
 
 export default {
   getRandomElement(array) {
     if(!array.length){
-      console.error('Пустой массив');
+      return "ERROR";
     }
     const index = Math.round(Math.random() * (array.length - 1));
 
@@ -11,9 +12,9 @@ export default {
 
   },
 
-  async getNextPhoto() {
+   async getNextPhoto() {
     const friend = this.getRandomElement(this.friends.items);
-    const photos = await this.getFriendPhotos(friend.id);
+    const photos =  await this.getFriendPhotos(friend.id);
     const photo = this.getRandomElement(photos.items);
     const size = this.findSize(photo);
 
@@ -28,7 +29,7 @@ export default {
   callApi(method, params){
     params.v = params.v || '5.120';
 
-    return new Promise((resolve, reject) =>{
+    return new Promise( (resolve, reject) =>{
       VK.api(method, params, (response)=> {
         if(response.error){
           reject(new Error (response.error.error_msg));
@@ -54,8 +55,8 @@ export default {
           console.error(response);
           reject(response); 
         }
-      })
-    })
+      }, 2 | 4);
+    });
   },
 
   getPhotos(owner){
@@ -65,14 +66,15 @@ export default {
 
     return this.callApi('photos.getAll', params);
   },
-  init() {
+  async init() {
     this.photoCache = {},
-    this.friends =  this.getFriends();
+    this.friends = await this.getFriends();
+    
   },
 
   photoCache:{},
   getFriendPhotos(id) {
-    const photos = this.photoCache[id];
+    let photos = this.photoCache[id];
 
     if (photos) {
       return photos;
