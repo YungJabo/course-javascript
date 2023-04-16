@@ -11,7 +11,7 @@ const DB = {
 const methods = {
     like(req, res, url, vkUser) {
         const photoId = url.searchParams.get('photo');
-        let photoLikes = DB.likes.get(PhotoId);
+        let photoLikes = DB.likes.get(photoId);
 
         if(!photoLikes){
             photoLikes = new Map();
@@ -21,8 +21,12 @@ const methods = {
         if(photoLikes.get(vkUser.id)){
             photoLikes.delete(vkUser.id);
             return {
-                likes: photoLikes.size, liked: true
+                likes: photoLikes.size, liked: false
             };
+        }
+        photoLikes.set(vkUser.id, true);
+        return {
+            likes: photoLikes.size, liked: true
         }
         
     },
@@ -71,7 +75,9 @@ http
 
         res.end(JSON.stringify(responseData ?? null));
     })
-    .listen('8888');
+    .listen('8888', ()=>{
+        console.log('Сервер запущен');
+    });
 
 async function readBody(req) {
     if (req.method === 'GET') {
@@ -79,7 +85,7 @@ async function readBody(req) {
     }
 
     return new Promise((resolve) => {
-        let body = "{}";
+        let body = "";
         req
             .on('data', (chunk) => {
                 body += chunk;
@@ -95,19 +101,22 @@ async function getVKUser(token) {
                 `https://api.vk.com/method/users.get?access_token=${token}&fields=photo_50&v=5.120`
             )
             .on('response', (res) => {
-                let body = "{}";
+                let body = "";
 
                 res.setEncoding('utf8');
                 res
                     .on('data', (chunk) => {
                         body += chunk;
                     })
-                    .on('end', () => resolve(JSON.parse(body)));
+                    .on('end', () => {
+                        console.log(body);
+                        resolve(JSON.parse(body));
+                    });
             })
             .on('error', reject)
     );
 
-    return body.response[0];
+    return body?.response?.[0];
 }
 
 async function getMe(token) {

@@ -1,6 +1,7 @@
 import model from './model.js';
 import pages from './pages.js';
 import profilePage from './profilePage.js';
+import commentsTemplate from './commentsTemplate.hbs';
 
 export default {
   async getNextPhoto() {
@@ -17,13 +18,13 @@ export default {
 
     this.friend = friend;
     this.photoId = id;
-
+    console.log(stats);
     headerPhotoComp.style.backgroundImage = `url('${friend.photo_50}')`;
     headerNameComp.innerText = `${friend.first_name ?? ''} ${friend.last_name ?? ''}`;
     photoComp.style.backgroundImage = `url(${url})`;
     footerPhoto.style.backgroundImage = `url('${model.me.photo_50}')`;
-    this.setLikes(stats.likes, stats.liked);
-    this.setComments(stats.comments);
+    this.setLikes(stats?.likes, stats?.liked);
+    this.setComments(stats?.comments);
     
   },
 
@@ -86,6 +87,7 @@ export default {
 
   async loadComments(photo){
     const comments = await model.getComments(photo);
+    console.log(comments);
     const commentsElements = commentsTemplate({
       list: comments.map((comment)=>{
         return {

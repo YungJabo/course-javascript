@@ -73,13 +73,10 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
-        test: /\.html/,
-        include: [path.resolve(__dirname, 'projects')],
+        test: /\.html\.hbs$/,
         use: [
-          { loader: './scripts/html-inject-loader.js' },
-          {
-            loader: 'raw-loader',
-          },
+          { loader: './scripts/html-to-dom-loader.js' },
+          { loader: 'handlebars-loader' },
         ],
       },
       {

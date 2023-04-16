@@ -18,11 +18,11 @@ export default {
     const photo = this.getRandomElement(photos.items);
     const size = this.findSize(photo);
 
-    return {friend, id: photo.id, url: size.url};
+    return {friend, id: photo.id, url: size?.url};
   },
 
   findSize(photo){
-    const size = photo.sizes.find((size) => size.width >= 360);
+    const size = photo.sizes?.find((size) => size.width >= 360);
     return size;
   },
 
@@ -143,7 +143,7 @@ async callServer(method, queryParams, body){
     return this.callServer('getComments', {photo});
   },
 
-  async getComments(photo){
+  async postComments(photo){
     return this.callServer('postComment', {photo}, {text});
   },
 };
